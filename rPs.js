@@ -1,24 +1,24 @@
 // Rock Paper Scissors in Javascript
 
 // choices
-cpuChoice = 'cpu blank' // The computers choice
-playerChoice = 'people blank' // The players choice
-
-// result interpret
-result = 'Result blank' // The result (Win, lose, draw)
-resultText = 'Result text blank' // The string that informs the user
+let cpuChoice = 'cpu blank' // The computers choice
+let playerChoice = 'people blank' // The players choice
 
 // win lose draw
-cpuWin = 'cpuwin blank' // The computer wins
-playerWin = 'playerwin blank' // the player wins
-draw = 'draw blank' //neither player or cpu wins
+let cpuWin = 'cpuwin blank' // The computer wins
+let playerWin = 'playerwin blank' // the player wins
+let draw = 'draw blank' //neither player or cpu wins
+
+// result interpret
+let result = 'Result blank' // The result (Win, lose, draw)
+let resultText = 'Result text blank' // The string that informs the user
 
 // Function called computerPlay that will return randomly 'Rock', 'Paper' or 'Scissors'
 function computerPlay() {
     let aiPocket = ["Rock", "Paper", "Scissors"]; // 
     let cpuChoice = aiPocket[Math.floor(Math.random()*aiPocket.length)];
    
-    document.write(cpuChoice); // prints the cpu choice on the html page
+    document.write('CPU Choice is',cpuChoice); // prints the cpu choice on the html page
 }
 
 // Function called playerPlay asks for input and stores it
@@ -48,7 +48,7 @@ function playerPlay(){
             break;
     }
 
-   document.write(playerChoice); // prints the human choice on the html page
+   document.write('Player Choice is',playerChoice); // prints the human choice on the html page
 }
 
 
@@ -65,64 +65,68 @@ Scissors beats Paper
 and then return a string that decalares the winner with a victory message e.g. 'You Lose! Paper beats Rock'
 
 */
-function roundMaster(){
-    computerPlay();
-    playerPlay();
 
-    switch(result) { // Inteprets the result
-    
-     // All the rock options
-        case ((playerChoice == 'Rock') && (cpuChoice == 'Paper')):
-            result = cpuWin
-            break;
-        case ((playerChoice == 'Rock') && (cpuChoice == 'Scissors')):
-            result = playerWin
-            break;
-        case ((playerChoice == 'Rock') && (cpuChoice == 'Rock')):
-        result = draw
-        break;
+function resultsChecker(){ //Results checker
+    // First check if it is a draw
+        if (playerChoice === cpuChoice) {
+            result = draw;
+        }
+
+    // All the rock options
+        if  ((playerChoice === 'Rock') && (cpuChoice === 'Paper')) {
+            result = cpuWin;
+            }
+
+        else if
+            ((playerChoice === 'Rock') && (cpuChoice === 'Scissors')) {
+            result = playerWin;
+            }
 
      // All the paper options
-        case ((playerChoice == 'Paper') && (cpuChoice == 'Scissors')):
-            result = cpuWin
-            break;
-        case ((playerChoice == 'Paper') && (cpuChoice == 'Rock')):
-            result = playerWin
-            break;
-        case ((playerChoice == 'Paper') && (cpuChoice == 'Paper')):
-        result = draw
-        break;
+        if ((playerChoice === 'Paper') && (cpuChoice === 'Scissors')) {
+            result = cpuWin;
+        }
+        
+        else if ((playerChoice === 'Paper') && (cpuChoice === 'Rock')) {
+            result = playerWin;
+        }
 
-     // All the Scissors options
-        case ((playerChoice == 'Scissors') && (cpuChoice == 'Rock')):
-        result = cpuWin
-        break;
-        case ((playerChoice == 'Scissors') && (cpuChoice == 'Paper')):
-        result = playerWin
-        break;
-        case ((playerChoice == 'Scissors') && (cpuChoice == 'Scissors')):
-        result = draw
-        break;        
-    }
-
-    switch(resultText) { // Gives the correct message to the player
-        case cpuWin:
-            resultText = `Sorry ${cpuChoice} beats ${playerChoice}` // Output text if cpu wins e.g Sorry Rock beats Scissors
-            break;
-        case playerWin:
-            resultText = `Awesome ${playerChoice} beats ${cpuChoice}!` // Output text if player wins e.g Awesome Rock beats Scissors!
-            break;
-        case draw:
-            resultText = `That's a tie ${playerChoice} cannot beat itself` // output text if cpu and player pick the same option e.g That's a tie Rock cannot beat itself
-            break;
-    }
-
-        document.write(result); // prints the result
-
-    document.write(resultText); // prints the result message for the player
+    // All the Scissors options
+        if ((playerChoice === 'Scissors') && (cpuChoice === 'Rock')) {
+            result = cpuWin;
+        }
+        else if ((playerChoice === 'Scissors') && (cpuChoice === 'Paper')) {
+            result = playerWin;
+        }
 }
 
+
+function resultsPrinter(){ //Results text generator
+    
+    if (result == cpuWin) {
+        resultText = `Sorry ${cpuChoice} beats ${playerChoice}`; // Output text if cpu wins e.g Sorry Rock beats Scissors
+        }
+    else if (result == playerWin) {
+        resultText = `Awesome ${playerChoice} beats ${cpuChoice}!`; // Output text if player wins e.g Awesome Rock beats Scissors!
+        }
+    else if (result == draw) {
+        resultText = `That's a tie ${playerChoice} cannot beat itself`; // output text if cpu and player pick the same option e.g That's a tie Rock cannot beat itself
+    }
+}
+
+function roundMaster(){
+    computerPlay(); // calls the cpu to make it's choice
+    playerPlay(); // calls the player to make their choice
+    resultsChecker(); // checks the results
+    resultsPrinter(); // prints the results
+    }
+
 roundMaster();
+
+document.write(result); // prints the result
+
+document.write(resultText); // prints the result message for the player
+
 
 // Function called game() which runs roundMaster 5 times in a row, then displays the results of each round and the winner after 5 games using console.log()
 
