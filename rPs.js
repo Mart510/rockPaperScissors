@@ -6,29 +6,34 @@ let playerInput = 'input Blank' // The players choice
 let playerChoice = 'player blank' // the players choice
 
 // win lose draw
-let cpuWin = 'cpuwin blank' // The computer wins
-let playerWin = 'playerwin blank' // the player wins
-let draw = 'draw blank' //neither player or cpu wins
+let cpuWin = 'cpuwin' // The computer wins
+let playerWin = 'playerwin' // the player wins
+let draw = 'draw' //neither player or cpu wins
 
 // result interpret
 let result = 'Result blank' // The result (Win, lose, draw)
 let resultText = 'Result text blank' // The string that informs the user
+let grandMasterText = 'Grand master blank' // This string contains the overall winner
+
+// scoreboard
+let scoreCount = 0 // Default value, CPU win = -1, Player win = +1
 
 // Function called computerPlay that will return randomly 'Rock', 'Paper' or 'Scissors'
 function computerPlay() {
-    let aiPocket = ["Rock", "Paper", "Scissors"]; // 
-    let cpuChoice = aiPocket[Math.floor(Math.random()*aiPocket.length)];
+    let aiPocket = ['Rock', 'Paper', 'Scissors'];  
+    cpuChoice = aiPocket[Math.floor(Math.random()*aiPocket.length)]; // Cpu choice now failing
    
-    document.write('CPU Choice is ',cpuChoice); // prints the cpu choice on the html page
+    // document.write('CPU Choice is ',cpuChoice); // prints the cpu choice on the html page
 }
 
 // Function called playerPlay asks for input and stores it
 function playerPlay(){
     playerInput = prompt('What do you choose?', "Rock paper scissors");
 
-    playerInput.toString().toLowerCase(); //This doesn't work for some reason
+    playerInput = playerInput.toString();
+    playerInput = playerInput.toLowerCase(); // Makes the input lower case for below if and else
 
-    if (playerInput.charAt(0) == 'r') {
+    if (playerInput.charAt(0) == 'r') { // Only need to check first character
         playerChoice = 'Rock';
     }
     else if (playerInput.charAt(0) == 'p') {
@@ -38,33 +43,7 @@ function playerPlay(){
         playerChoice = 'Scissors';
     }
 
-   /* switch(playerChoice) { // different ways of writing Rock
-        case 'Rock':
-        case 'rock':
-        case 'R':
-        case 'r':
-            playerChoice = 'Rock'
-            break;
-
-        case 'Paper': // different ways of writing Paper
-        case 'paper':
-        case 'P':
-        case 'p':
-            playerChoice = 'Paper'
-            break;
-
-        case 'Scissors': // different ways of writing Scissors
-        case 'scissors':
-        case 'S':
-        case 's':
-            playerChoice = 'Scissors'
-            break;
-    }
-*/
-
-   document.write("\n",'Player Choice is ',playerChoice); // prints the human choice on the html page
 }
-
 
 function resultsChecker(){ // figures out who wins the round 
     // First check if it is a draw
@@ -100,18 +79,28 @@ function resultsChecker(){ // figures out who wins the round
         }
 }
 
-
-function resultsPrinter(){ //Results text generator
+function resultsPrinter(){ // Results text generator
     
-    if (result == cpuWin) {
+    if (result === cpuWin) {
         resultText = `Sorry ${cpuChoice} beats ${playerChoice}`; // Output text if cpu wins e.g Sorry Rock beats Scissors
         }
-    else if (result == playerWin) {
+    else if (result === playerWin) {
         resultText = `Awesome ${playerChoice} beats ${cpuChoice}!`; // Output text if player wins e.g Awesome Rock beats Scissors!
         }
-    else if (result == draw) {
+    else if (result === draw) {
         resultText = `That's a tie ${playerChoice} cannot beat itself`; // output text if cpu and player pick the same option e.g That's a tie Rock cannot beat itself
     }
+    document.write(resultText);
+}
+
+function scoreCounter(){ // Counts the score from each round of play
+     
+    if (result === cpuWin) {
+        scoreCount = scoreCount - 1; // reduces score int by 1
+    }
+    else (result === playerWin) 
+        scoreCount = scoreCount + 1; // increaces score int by 1
+    
 }
 
 function roundMaster(){ // Plays 1 round of the game
@@ -119,16 +108,36 @@ function roundMaster(){ // Plays 1 round of the game
     playerPlay(); // calls the player to make their choice
     resultsChecker(); // checks the results
     resultsPrinter(); // prints the results
+    scoreCounter(); // counts the score
+}
+
+function game(){ // plays roundMaster 5 times, records each result then declares the winner
+
+    for (let i = 0; i <5; i++) {
+        roundMaster();
     }
+    
+    if (scoreCount >0) {
+        grandMasterText = 'Well done, you are the champion!';
+    }
+    else (scoreCount <=0 )
+        grandMasterText = 'Sorry the Computer is the champion!';
+    
+    document.write(grandMasterText);
+        
+}
 
-roundMaster();
+game();
 
-document.write("\n"); // Creates a new line for the next output - makes the outputs in testing easier to read
-document.write(result); // prints the result
-
-document.write("\n"); // Creates a new line for the next output - makes the outputs in testing easier to read
-document.write(resultText); // prints the result message for the player
-
+// Debug print calls
+// now works document.write('CPU Choice is ',cpuChoice);
+// now works document.write("\n"); // Creates a new line for the next output - makes the outputs in testing easier to read
+// now works document.write('Player Choice is ',playerChoice); // prints the human choice on the html page
+// now works document.write("\n"); // Creates a new line for the next output - makes the outputs in testing easier to read
+// now works document.write(result); // prints the result
+// now works document.write("\n"); // Creates a new line for the next output - makes the outputs in testing easier to read
+// now works document.write(resultText); // prints the result message for the player
+// now works document.write(scoreCount); // prints current score
 
 // Function called game() which runs roundMaster 5 times in a row, then displays the results of each round and the winner after 5 games using console.log()
 
